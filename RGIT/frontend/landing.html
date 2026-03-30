@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hook Architect — AI-powered short-form video retention analysis. Get per-second attention scoring, ML retention prediction, and AI script fixes.">
+    <title>Hook Architect — Stop Guessing Why Viewers Drop Off</title>
+    <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="/static/landing.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- NAVBAR                                                  -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <nav class="nav" id="navbar">
+        <a href="/" class="nav__logo">
+            <span class="nav__logo-icon">🎬</span>
+            <span>Hook Architect</span>
+        </a>
+        <div class="nav__links">
+            <a href="#features" class="nav__link">Features</a>
+            <a href="#how-it-works" class="nav__link">How It Works</a>
+            <a href="#pricing" class="nav__link">Pricing</a>
+            <a href="#docs" class="nav__link">Docs</a>
+        </div>
+        <div class="nav__cta">
+            <a href="/login" class="btn btn--ghost btn--small">Log In</a>
+            <a href="/signup" class="btn btn--primary btn--small">Get Started →</a>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- HERO SECTION                                            -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="hero" id="hero">
+        <!-- Background orbs -->
+        <div class="hero__orb hero__orb--1"></div>
+        <div class="hero__orb hero__orb--2"></div>
+        <div class="hero__orb hero__orb--3"></div>
+        
+        <!-- Ghost text -->
+        <div class="hero__ghost-text">RETENTION</div>
+
+        <div class="hero__content">
+            <div class="hero__badge">
+                <span>Powered by LLaVA + Groq + scikit-learn</span>
+            </div>
+
+            <h1 class="hero__title">
+                Stop Guessing Why<br>
+    <span class="hero__title-gradient">Viewers Drop Off.</span>
+            </h1>
+
+            <p class="hero__subtitle">
+                Hook Architect analyzes every second of your video — audio, visuals, emotion, transcript — and tells you exactly what to fix.
+            </p>
+
+            <div class="hero__actions">
+                <a href="/signup" class="btn btn--primary btn--large">
+                    Analyze Your First Video
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </a>
+                <button class="btn btn--secondary btn--large" id="btn-watch-demo">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Watch Demo
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- FEATURES SECTION                                        -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="features" id="features">
+        <div class="features__header animate-on-scroll">
+            <div class="features__label">Capabilities</div>
+            <h2 class="features__title">Everything You Need to Go Viral</h2>
+        </div>
+
+        <div class="features__grid">
+            <div class="feature-card card--hover animate-on-scroll delay-1">
+                <div class="feature-card__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF3B30" stroke-width="2" stroke-linecap="round"><path d="M2 12h2l3-9 4 18 3-9h2"/><circle cx="20" cy="12" r="2"/></svg>
+                </div>
+                <h3 class="feature-card__title">Per-Second Attention Scoring</h3>
+                <p class="feature-card__desc">Every second of your video gets an attention score based on audio energy, visual motion, and emotional engagement. See exactly where viewers tune out.</p>
+            </div>
+
+            <div class="feature-card card--hover animate-on-scroll delay-2">
+                <div class="feature-card__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+                </div>
+                <h3 class="feature-card__title">ML Retention Prediction</h3>
+                <p class="feature-card__desc">Trained on real engagement patterns, our ML models predict your retention curve, detect drop zones, and classify your content niche automatically.</p>
+            </div>
+
+            <div class="feature-card card--hover animate-on-scroll delay-3">
+                <div class="feature-card__icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF8C00" stroke-width="2" stroke-linecap="round"><path d="M15 4V2M15 16v-2M8 9h2M20 9h2M17.8 11.8L19 13M17.8 6.2L19 5M3 21l9-9"/><path d="M12.2 6.2L11 5"/></svg>
+                </div>
+                <h3 class="feature-card__title">AI Script Doctor</h3>
+                <p class="feature-card__desc">Get AI-powered rewrites for your weakest segments. The Script Doctor analyzes transcript, emotion, and pacing to suggest fixes that boost retention.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- HOW IT WORKS                                            -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="how-it-works__header animate-on-scroll">
+            <div class="how-it-works__label">Process</div>
+            <h2 class="how-it-works__title">How It Works</h2>
+        </div>
+
+        <div class="steps">
+            <div class="step animate-on-scroll delay-1">
+                <div class="step__number">1</div>
+                <div class="step__connector"></div>
+                <h3 class="step__title">Upload Video</h3>
+                <p class="step__desc">Drop your short-form video (up to 120s). We accept MP4, MOV, AVI, WebM, and MKV.</p>
+            </div>
+
+            <div class="step animate-on-scroll delay-2">
+                <div class="step__number">2</div>
+                <div class="step__connector"></div>
+                <h3 class="step__title">12-Step AI Pipeline</h3>
+                <p class="step__desc">Audio energy, visual motion, transcript NLP, emotion tracking, virality scoring, ML prediction — all running simultaneously.</p>
+            </div>
+
+            <div class="step animate-on-scroll delay-3">
+                <div class="step__number">3</div>
+                <h3 class="step__title">Get Actionable Report</h3>
+                <p class="step__desc">Retention curves, drop zone fixes, hook strength grades, emotion arcs — everything you need to optimize.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- SOCIAL PROOF BAR                                        -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="social-proof animate-on-scroll" id="pricing">
+        <div class="social-proof__inner">
+            <div class="social-proof__item">
+                <span class="social-proof__item-value">12</span> analysis signals
+            </div>
+            <div class="social-proof__item">
+                <span class="social-proof__item-value">7</span> persona presets
+            </div>
+            <div class="social-proof__item">
+                <span class="social-proof__item-value">LLaVA</span> visual AI
+            </div>
+            <div class="social-proof__item">
+                <span class="social-proof__item-value">ML</span> retention models
+            </div>
+            <div class="social-proof__item">
+                <span class="social-proof__item-value">Groq</span> inference engine
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- FINAL CTA                                               -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="final-cta animate-on-scroll" id="docs">
+        <div class="final-cta__card">
+            <h2 class="final-cta__title">Ready to Fix Your Retention?</h2>
+            <p class="final-cta__subtitle">Upload your first video and get an AI-powered retention analysis in minutes. No credit card required.</p>
+            <a href="/signup" class="btn btn--primary btn--large">
+                Create Free Account
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- FOOTER                                                  -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="footer__inner">
+            <div class="footer__brand">
+                <div class="footer__brand-name">🎬 Hook Architect</div>
+                <p class="footer__brand-desc">AI-powered short-form video retention analysis engine. Know exactly where you lose viewers — and how to fix it.</p>
+            </div>
+            <div class="footer__col">
+                <div class="footer__col-title">Product</div>
+                <ul class="footer__links">
+                    <li><a href="#features" class="footer__link">Features</a></li>
+                    <li><a href="#how-it-works" class="footer__link">How It Works</a></li>
+                    <li><a href="/login" class="footer__link">Log In</a></li>
+                    <li><a href="/signup" class="footer__link">Sign Up</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <div class="footer__col-title">Resources</div>
+                <ul class="footer__links">
+                    <li><a href="#" class="footer__link">Documentation</a></li>
+                    <li><a href="#" class="footer__link">API Reference</a></li>
+                    <li><a href="#" class="footer__link">Changelog</a></li>
+                    <li><a href="#" class="footer__link">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            © 2026 Hook Architect. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="/static/landing.js"></script>
+    <script src="/static/cursor.js"></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hook Architect — Video Analysis Results">
+    <title>Analysis Results — Hook Architect</title>
+    <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="/static/analysis.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="analysis-page">
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <div class="dashboard">
+
+        <!-- ═══ Hamburger (mobile) ═══ -->
+        <button class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- ═══ Sidebar ═══ -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__header">
+                <a href="/" class="sidebar__logo">
+                    <span class="sidebar__logo-icon">🎬</span>
+                    <span>Hook Architect</span>
+                </a>
+            </div>
+            <nav class="sidebar__nav">
+                <a href="/dashboard" class="sidebar__link" data-page="home">
+                    <span class="sidebar__link-icon">🏠</span> Dashboard
+                </a>
+                <button class="sidebar__link sidebar__link--primary" onclick="window.location.href='/dashboard'">
+                    <span class="sidebar__link-icon">📤</span> New Analysis
+                </button>
+                <a href="/dashboard/history" class="sidebar__link" data-page="history">
+                    <span class="sidebar__link-icon">📜</span> History
+                </a>
+                <a href="/dashboard/profile" class="sidebar__link" data-page="profile">
+                    <span class="sidebar__link-icon">👤</span> My Profile
+                </a>
+            </nav>
+            <div class="sidebar__footer">
+                <div class="sidebar__user">
+                    <div class="sidebar__avatar" id="sidebar-avatar">?</div>
+                    <div class="sidebar__user-info">
+                        <div class="sidebar__user-name" id="sidebar-username">Guest</div>
+                        <div class="sidebar__user-niche" id="sidebar-niche">No profile</div>
+                    </div>
+                    <button class="sidebar__logout" id="btn-sidebar-logout" title="Log out">🚪</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══ Main Content ═══ -->
+        <main class="main" id="main-content">
+
+            <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+
+            <!-- Analysis Header -->
+            <div class="analysis-header" id="analysis-header">
+                <div class="analysis-header__info">
+                    <h1 class="analysis-header__title" id="analysis-title">Loading analysis...</h1>
+                    <div class="analysis-header__meta" id="analysis-meta"></div>
+                </div>
+                <div class="analysis-header__actions">
+                    <button class="btn btn--secondary btn--small" id="btn-download-pdf">📄 Download PDF</button>
+                    <button class="btn btn--secondary btn--small" id="btn-share">🔗 Share</button>
+                    <button class="btn btn--primary btn--small" onclick="window.location.href='/dashboard'">🔄 New Analysis</button>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs" id="tabs">
+                <button class="tab active" data-tab="overview">Overview</button>
+                <button class="tab" data-tab="timeline">Timeline</button>
+                <button class="tab" data-tab="signals">Signals</button>
+                <button class="tab" data-tab="coach">AI Coach</button>
+                <button class="tab" data-tab="report">Report</button>
+            </div>
+
+            <!-- ═══ TAB 1: Overview ═══ -->
+            <div class="tab-content active" id="tab-overview">
+                <div class="overview-grid">
+                    <div>
+                        <!-- Score Gauge -->
+                        <div class="score-gauge">
+                            <div class="score-gauge__ring">
+                                <svg viewBox="0 0 180 180">
+                                    <circle class="score-gauge__ring-bg" cx="90" cy="90" r="78" />
+                                    <circle class="score-gauge__ring-fill" id="score-ring-fill" cx="90" cy="90" r="78"
+                                        stroke-dasharray="490" stroke-dashoffset="490" />
+                                </svg>
+                                <div class="score-gauge__value">
+                                    <div class="score-gauge__number" id="score-number">0</div>
+                                    <div class="score-gauge__label">/ 100</div>
+                                </div>
+                            </div>
+                            <div class="score-gauge__title">Overall Retention Score</div>
+                        </div>
+
+                        <!-- Hook Grade -->
+                        <div class="hook-grade" id="hook-grade-card">
+                            <div class="hook-grade__letter" id="hook-grade-letter">—</div>
+                            <div class="hook-grade__info">
+                                <div class="hook-grade__title">Hook Strength</div>
+                                <div class="hook-grade__desc" id="hook-grade-desc">Analyzing first 3 seconds...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overview-right">
+                        <!-- Summary -->
+                        <div class="summary-card">
+                            <div class="summary-card__title">📊 Analysis Summary</div>
+                            <div class="summary-card__text" id="summary-text">Loading...</div>
+                            <div class="zone-badges" id="zone-badges"></div>
+                        </div>
+
+                        <!-- Retention Curve -->
+                        <div class="chart-card">
+                            <div class="chart-card__title">📉 Predicted Retention Curve</div>
+                            <div class="chart-card__canvas-wrap">
+                                <canvas id="retention-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zone Distribution -->
+                <div class="charts-row">
+                    <div class="chart-card">
+                        <div class="chart-card__title">🟢🟡🔴 Zone Distribution</div>
+                        <div class="chart-card__canvas-wrap">
+                            <canvas id="zone-donut-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-card__title">🌈 Multi-Spectral Overlay</div>
+                        <div class="chart-card__canvas-wrap">
+                            <canvas id="multispectral-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ TAB 2: Timeline ═══ -->
+            <div class="tab-content" id="tab-timeline">
+                <div class="heatmap-container">
+                    <div class="heatmap-label">🔥 Per-Second Attention Heatmap</div>
+                    <div class="heatmap-bar" id="heatmap-bar"></div>
+                    <div class="heatmap-timestamps" id="heatmap-timestamps"></div>
+                </div>
+                <h3 style="margin-bottom: 16px; font-size: 1.05rem;">⚠️ Risk Zones</h3>
+                <div class="zone-cards" id="zone-cards"></div>
+            </div>
+
+            <!-- ═══ TAB 3: Signals ═══ -->
+            <div class="tab-content" id="tab-signals">
+                <div class="signals-grid" id="signals-grid"></div>
+            </div>
+
+            <!-- ═══ TAB 4: AI Coach ═══ -->
+            <div class="tab-content" id="tab-coach">
+                <div class="coach-section">
+                    <!-- Emotion Arc -->
+                    <div class="chart-card">
+                        <div class="chart-card__title">🎭 Emotion Arc</div>
+                        <div class="chart-card__canvas-wrap">
+                            <canvas id="emotion-arc-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Multimodal Critique -->
+                    <div class="script-doctor-card" id="multimodal-section" style="display:none;">
+                        <div class="script-doctor__title">👁️ Visual AI Diagnostics (LLaVA)</div>
+                        <div id="multimodal-content"></div>
+                    </div>
+
+                    <!-- Script Doctor -->
+                    <div class="script-doctor-card" id="script-doctor-section" style="display:none;">
+                        <div class="script-doctor__title">🩺 AI Script Doctor</div>
+                        <div id="script-doctor-content"></div>
+                    </div>
+
+                    <!-- Chat -->
+                    <div class="chat-card">
+                        <div class="chat-card__header">
+                            <div class="chat-card__title">🤖 AI Analysis Assistant</div>
+                            <div class="chat-card__subtitle">Ask questions about your video analysis</div>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="chat-message">
+                                <div class="chat-message__avatar">🤖</div>
+                                <div class="chat-message__text">Hi! I've analyzed your video. Ask me anything about the results — weaknesses, improvements, specific timestamps, or optimization tips.</div>
+                            </div>
+                        </div>
+                        <div class="chat-input-bar">
+                            <input type="text" id="chat-input" class="input" placeholder="Ask about your video analysis..." maxlength="500" autocomplete="off">
+                            <button class="btn btn--primary btn--small" id="btn-send-chat" disabled>Send ➤</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ TAB 5: Report ═══ -->
+            <div class="tab-content" id="tab-report">
+                <div class="report-card">
+                    <div class="report-card__actions">
+                        <button class="btn btn--primary" id="btn-download-pdf-2">📄 Download PDF Report</button>
+                        <button class="btn btn--secondary" id="btn-share-2">🔗 Share Link</button>
+                    </div>
+                    <div class="report-preview" id="report-preview">Loading report...</div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="/static/analysis.js"></script>
+    <script src="/static/cursor.js"></script>
+</body>
+</html>

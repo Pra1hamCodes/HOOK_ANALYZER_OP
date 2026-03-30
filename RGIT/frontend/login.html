@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Log in to Hook Architect — your AI-powered video retention analysis dashboard.">
+    <title>Log In — Hook Architect</title>
+    <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="/static/auth.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <div class="auth-page">
+
+        <!-- ═══ Left Panel — Brand ═══ -->
+        <div class="auth-brand">
+            <div class="auth-brand__bg">
+                <div class="auth-brand__orb auth-brand__orb--1"></div>
+                <div class="auth-brand__orb auth-brand__orb--2"></div>
+                <div class="auth-brand__orb auth-brand__orb--3"></div>
+            </div>
+            <div class="auth-brand__content">
+                <div class="auth-brand__logo">
+                    <span class="auth-brand__logo-icon">🎬</span>
+                    <span>Hook Architect</span>
+                </div>
+                <div class="auth-brand__tagline">Know exactly where you lose them.</div>
+                <p class="auth-brand__quote">"The difference between a viral video and a flop is 3 seconds of attention."</p>
+                <ul class="auth-brand__features">
+                    <li class="auth-brand__feature">
+                        <span class="auth-brand__feature-check">✓</span>
+                        Per-second attention scoring with 12 signals
+                    </li>
+                    <li class="auth-brand__feature">
+                        <span class="auth-brand__feature-check">✓</span>
+                        ML-powered retention curve prediction
+                    </li>
+                    <li class="auth-brand__feature">
+                        <span class="auth-brand__feature-check">✓</span>
+                        AI Script Doctor for weak script rewrites
+                    </li>
+                    <li class="auth-brand__feature">
+                        <span class="auth-brand__feature-check">✓</span>
+                        Personalized scoring by content niche
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ═══ Right Panel — Login Form ═══ -->
+        <div class="auth-form-panel">
+            <div class="auth-form-card">
+                <div class="auth-form-card__header">
+                    <h1 class="auth-form-card__title">Welcome back</h1>
+                    <p class="auth-form-card__subtitle">Sign in to your Hook Architect account</p>
+                </div>
+
+                <div class="auth-error" id="auth-error">
+                    <span>⚠️</span>
+                    <span id="auth-error-text"></span>
+                </div>
+
+                <form class="auth-form" id="login-form" novalidate>
+                    <div class="input-group">
+                        <label class="input-label" for="login-email">Email</label>
+                        <input type="email" id="login-email" class="input" placeholder="you@example.com" autocomplete="email">
+                        <span class="input-error"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label" for="login-password">Password</label>
+                        <input type="password" id="login-password" class="input" placeholder="Enter your password" autocomplete="current-password">
+                        <span class="input-error"></span>
+                    </div>
+
+                    <div class="auth-forgot">
+                        <a href="#">Forgot password?</a>
+                    </div>
+
+                    <div class="auth-submit">
+                        <button type="submit" class="btn btn--primary btn--full btn--large">Sign In</button>
+                    </div>
+
+                    <div class="auth-divider">or continue with</div>
+
+                    <div class="auth-toggle">
+                        Don't have an account? <a href="/signup">Sign up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/static/auth.js"></script>
+    <script src="/static/cursor.js"></script>
+</body>
+</html>

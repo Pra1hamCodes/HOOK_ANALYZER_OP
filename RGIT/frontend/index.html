@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hook Architect — AI-powered video retention analysis with personalized scoring, reference induction, and AI script doctor.">
+    <title>Hook Architect — Video Retention Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Cursor-Reactive Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Zone Detail Modal -->
+    <div class="zone-detail-overlay" id="zone-detail-overlay">
+        <div class="zone-detail-modal" id="zone-detail-modal">
+            <div class="zone-detail-modal__header">
+                <div class="zone-detail-modal__title" id="zone-detail-title">Zone Details</div>
+                <button class="zone-detail-modal__close" id="btn-close-zone-detail">&times;</button>
+            </div>
+            <div class="zone-detail-modal__body" id="zone-detail-body">
+                <div class="zone-detail-signals" id="zone-detail-signals"></div>
+                <div class="zone-detail-chart-container">
+                    <canvas id="zone-detail-chart" height="180"></canvas>
+                </div>
+                <div class="zone-detail-faults" id="zone-detail-faults"></div>
+                <div class="zone-detail-strengths" id="zone-detail-strengths"></div>
+                <div class="zone-detail-ai" id="zone-detail-ai">
+                    <div class="zone-detail-ai__loading">🧠 Loading AI insights...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- PAGE 1: LANDING PAGE                                        -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-landing">
+        <div class="landing">
+            <div class="landing__glow landing__glow--1"></div>
+            <div class="landing__glow landing__glow--2"></div>
+            <div class="landing__glow landing__glow--3"></div>
+            <div class="landing__content">
+                <div class="landing__badge">AI-Powered Video Intelligence</div>
+                <h1 class="landing__title">
+                    <span class="landing__title-line">Decode Your</span>
+                    <span class="landing__title-accent">Video's DNA</span>
+                </h1>
+                <p class="landing__desc">Hook Architect analyzes every frame, sound, and word of your short-form videos. Get retention scores, emotion arcs, hook strength ratings, and AI-powered fixes — all in seconds.</p>
+                <div class="landing__stats">
+                    <div class="landing__stat">
+                        <div class="landing__stat-value">7+</div>
+                        <div class="landing__stat-label">Analysis Engines</div>
+                    </div>
+                    <div class="landing__stat">
+                        <div class="landing__stat-value">AI</div>
+                        <div class="landing__stat-label">Gemini Powered</div>
+                    </div>
+                    <div class="landing__stat">
+                        <div class="landing__stat-value">120s</div>
+                        <div class="landing__stat-label">Max Duration</div>
+                    </div>
+                </div>
+                <button class="btn btn--hero" id="btn-get-started">
+                    Get Started
+                    <span class="btn__arrow">→</span>
+                </button>
+                <div class="landing__scroll-hint">
+                    <div class="landing__scroll-dot"></div>
+                    Scroll to explore
+                </div>
+            </div>
+            <div class="landing__features">
+                <div class="landing__feature-card">
+                    <div class="landing__feature-icon">🎣</div>
+                    <div class="landing__feature-title">Hook Scorer</div>
+                    <div class="landing__feature-desc">First 3-second analysis with scroll-or-stay prediction</div>
+                </div>
+                <div class="landing__feature-card">
+                    <div class="landing__feature-icon">🎭</div>
+                    <div class="landing__feature-title">Emotion Arc</div>
+                    <div class="landing__feature-desc">Map the emotional journey across your entire video</div>
+                </div>
+                <div class="landing__feature-card">
+                    <div class="landing__feature-icon">📉</div>
+                    <div class="landing__feature-title">Retention Curve</div>
+                    <div class="landing__feature-desc">Predict exactly where viewers drop off and why</div>
+                </div>
+                <div class="landing__feature-card">
+                    <div class="landing__feature-icon">🩺</div>
+                    <div class="landing__feature-title">Script Doctor</div>
+                    <div class="landing__feature-desc">AI rewrites for weak spots with Gemini intelligence</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- PAGE 2: NICHE SELECTION (First-time users)                   -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-niche" style="display:none;">
+        <div class="niche-page">
+            <div class="niche-page__header">
+                <div class="niche-page__icon">🎬</div>
+                <h1 class="niche-page__title">Welcome to Hook Architect</h1>
+                <p class="niche-page__desc">Tell us about your content style so we can score your videos <em>your way</em>.</p>
+            </div>
+
+            <div class="niche-page__field">
+                <label for="onboarding-username">Creator Name</label>
+                <input type="text" id="onboarding-username" class="hyper-input" placeholder="Your name or channel name" maxlength="50" autocomplete="off">
+            </div>
+
+            <div class="niche-page__field">
+                <label>Select Your Niche</label>
+                <div class="niche-bubbles" id="niche-grid"></div>
+            </div>
+
+            <button class="btn btn--hero" id="btn-create-profile" disabled>
+                Create My Profile
+                <span class="btn__arrow">→</span>
+            </button>
+
+            <button class="niche-page__skip" id="btn-skip-onboarding">
+                Skip — use default scoring
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- PAGE 3: MAIN APP (All existing functionality)                -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div class="page" id="page-app" style="display:none;">
+
+        <!-- ═══ Persistent Navbar ═══ -->
+        <nav class="navbar" id="navbar">
+            <div class="navbar__brand">
+                <div class="navbar__icon">🎬</div>
+                <div class="navbar__title">Hook Architect</div>
+            </div>
+            <div class="navbar__links">
+                <button class="navbar__link" id="btn-nav-new-project">
+                    <span class="navbar__link-icon">✨</span> New Project
+                </button>
+                <button class="navbar__link" id="btn-open-ledger" style="display:none;">
+                    <span class="navbar__link-icon">📜</span> History
+                </button>
+                <button class="navbar__link" id="btn-nav-profile">
+                    <span class="navbar__link-icon">👤</span> Profile
+                </button>
+            </div>
+            <div class="navbar__right">
+                <div class="header__profile" id="header-profile" style="display: none;">
+                    <div class="profile-badge" id="profile-badge"></div>
+                    <select class="profile-switcher" id="profile-switcher">
+                        <option value="">No Profile</option>
+                    </select>
+                    <button class="btn btn--small btn--ghost" id="btn-new-profile">+ New</button>
+                </div>
+                <button class="navbar__link navbar__link--logout" id="btn-logout">
+                    <span class="navbar__link-icon">🚪</span> Logout
+                </button>
+            </div>
+        </nav>
+
+        <!-- Evolution Ledger Sidebar -->
+        <div class="ledger-sidebar" id="ledger-sidebar">
+            <div class="ledger-sidebar__header">
+                <h2 class="ledger-sidebar__title">📜 Evolution Ledger</h2>
+                <button class="ledger-sidebar__close" id="btn-close-ledger">&times;</button>
+            </div>
+            <div class="ledger-sidebar__content" id="ledger-content">
+                <div class="ledger-empty">No video history yet.</div>
+            </div>
+        </div>
+        <div class="ledger-overlay" id="ledger-overlay"></div>
+
+        <div class="app-content">
+
+            <!-- ═══ Reference Portal — Step 0 ═══ -->
+            <section class="reference-section" id="reference-section" style="display: none;">
+                <div class="reference-card hyper-card">
+                    <div class="reference-card__header">
+                        <div class="reference-card__icon">🎯</div>
+                        <div>
+                            <div class="reference-card__title">Step 0 — Define Your Target Style</div>
+                            <div class="reference-card__desc">Describe your vision, upload reference videos, or paste YouTube links. We'll analyze them to create your Narrative Blueprint.</div>
+                        </div>
+                    </div>
+
+                    <!-- Goal Keywords Textbox -->
+                    <div class="goal-input-section" id="goal-input-section">
+                        <div class="goal-input-wrapper">
+                            <input type="text" id="goal-text-input" class="hyper-input goal-input" placeholder="Enter the kind of video you're aiming for (e.g., cinematic travel vlog with dramatic transitions)" maxlength="300" autocomplete="off">
+                            <button class="btn btn--small btn--accent" id="btn-process-goal" disabled>⚡ Extract Keywords</button>
+                        </div>
+                        <div class="goal-processing" id="goal-processing" style="display:none;">
+                            <div class="goal-processing__spinner"></div>
+                            <span>Analyzing your vision...</span>
+                        </div>
+                        <div class="goal-keywords" id="goal-keywords" style="display:none;"></div>
+                    </div>
+
+                    <div class="reference-baseline-status" id="reference-baseline-status"></div>
+
+                    <div class="reference-upload-zone" id="reference-upload-zone">
+                        <span class="upload-zone__icon">📎</span>
+                        <div class="upload-zone__title">Drop reference video here</div>
+                        <div class="upload-zone__hint">Upload videos that represent your target style</div>
+                        <input type="file" id="reference-file-input" accept="video/*">
+                    </div>
+
+                    <!-- YouTube Link Input -->
+                    <div class="youtube-input-section" id="youtube-input-section">
+                        <div class="youtube-input-wrapper">
+                            <div class="youtube-input-icon">▶</div>
+                            <input type="text" id="youtube-url-input" class="hyper-input youtube-input" placeholder="Paste a YouTube link as reference (e.g., https://youtube.com/watch?v=...)" autocomplete="off">
+                            <button class="btn btn--small btn--primary" id="btn-add-youtube" disabled>🔗 Add from YouTube</button>
+                        </div>
+                        <div class="youtube-progress" id="youtube-progress" style="display:none;">
+                            <div class="progress-bar"><div class="progress-bar__fill" id="yt-progress-fill"></div></div>
+                            <div class="progress-card__message" id="yt-progress-msg">Downloading...</div>
+                        </div>
+                    </div>
+
+                    <div class="reference-progress" id="reference-progress" style="display:none;">
+                        <div class="progress-bar"><div class="progress-bar__fill" id="ref-progress-fill"></div></div>
+                        <div class="progress-card__message" id="ref-progress-msg">Processing...</div>
+                    </div>
+
+                    <div class="reference-actions">
+                        <button class="btn btn--secondary btn--small" id="btn-clear-refs" style="display:none;">🗑 Clear References</button>
+                        <button class="btn btn--primary" id="btn-skip-references">Skip → Upload Video</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══ Upload Section ═══ -->
+            <section class="upload-section" id="upload-section">
+                <div class="upload-zone" id="upload-zone">
+                    <span class="upload-zone__icon">📹</span>
+                    <div class="upload-zone__title">Drop your video here</div>
+                    <div class="upload-zone__hint">or click to browse — max 120 seconds</div>
+                    <div class="upload-zone__formats">
+                        <span class="format-badge">.mp4</span>
+                        <span class="format-badge">.mov</span>
+                        <span class="format-badge">.avi</span>
+                        <span class="format-badge">.webm</span>
+                        <span class="format-badge">.mkv</span>
+                    </div>
+                    <div style="margin-top:14px;">
+                        <label for="platform-select" style="font-size:12px;color:#9ca3af;margin-right:8px;">Platform:</label>
+                        <select id="platform-select" class="profile-switcher" style="min-width:180px;">
+                            <option value="generic">Generic</option>
+                            <option value="tiktok">TikTok</option>
+                            <option value="reels">Instagram Reels</option>
+                            <option value="youtube_shorts">YouTube Shorts</option>
+                        </select>
+                    </div>
+                    <input type="file" id="file-input" accept="video/*">
+                </div>
+            </section>
+
+            <!-- ═══ Progress Section ═══ -->
+            <section class="progress-section" id="progress-section">
+                <div class="progress-card hyper-card">
+                    <div class="progress-card__header">
+                        <div class="progress-card__title">🔬 Analyzing Video</div>
+                        <div class="progress-card__pct" id="progress-pct">0%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar__fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-card__message" id="progress-msg">Uploading video...</div>
+                </div>
+            </section>
+
+            <!-- ═══ Results Section ═══ -->
+            <section class="results-section" id="results-section">
+
+                <!-- Persona Context Banner -->
+                <div class="persona-banner" id="persona-banner" style="display: none;"></div>
+
+                <!-- Reference Consistency Banner -->
+                <div class="reference-consistency-banner" id="ref-consistency-banner" style="display: none;"></div>
+
+                <!-- Reference vs Main Comparison -->
+                <div class="ref-comparison-section" id="ref-comparison-section" style="display: none;">
+                    <div class="ref-comparison-card hyper-card">
+                        <div class="ref-comparison-card__header">
+                            <div>
+                                <div class="ref-comparison-card__title">📊 Reference vs Your Video</div>
+                                <div class="ref-comparison-card__subtitle" id="ref-comparison-subtitle">Comparing against your reference baseline</div>
+                            </div>
+                            <div class="ref-comparison-card__verdict" id="ref-comparison-verdict"></div>
+                        </div>
+                        <div class="ref-comparison-metrics" id="ref-comparison-metrics"></div>
+                    </div>
+                </div>
+
+                <!-- Score Overview -->
+                <div class="score-overview">
+                    <div class="score-ring-card hyper-card">
+                        <div class="score-ring" id="score-ring">
+                            <svg viewBox="0 0 140 140">
+                                <circle class="score-ring__bg" cx="70" cy="70" r="60" />
+                                <circle class="score-ring__fill" id="score-ring-fill" cx="70" cy="70" r="60"
+                                    stroke-dasharray="377"
+                                    stroke-dashoffset="377" />
+                            </svg>
+                            <div class="score-ring__value">
+                                <div class="score-ring__number" id="score-number">0</div>
+                                <div class="score-ring__label">Hook Score</div>
+                            </div>
+                        </div>
+                        <div class="score-ring-card__title">Overall Retention</div>
+                    </div>
+
+                    <div class="summary-card hyper-card">
+                        <div class="summary-card__title">📊 Analysis Summary</div>
+                        <div class="confidence-row" id="confidence-row"></div>
+                        <div class="summary-card__text" id="summary-text">Loading...</div>
+                        <div class="zone-badges" id="zone-badges"></div>
+                        <div class="early-score-estimates" id="early-score-estimates" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <!-- Video Player + Timeline -->
+                <div class="player-section">
+                    <div class="player-card hyper-card">
+                        <div class="video-container">
+                            <video id="video-player" controls preload="metadata"></video>
+                        </div>
+
+                        <div class="timeline-wrapper">
+                            <div class="timeline-label">🔥 Attention Heatmap</div>
+                            <div class="timeline-container" id="timeline-container">
+                                <div class="timeline-heatmap" id="timeline-heatmap"></div>
+                                <div class="timeline-playhead" id="timeline-playhead" style="left: 0%"></div>
+                            </div>
+                            <div class="timeline-timestamps" id="timeline-timestamps"></div>
+                        </div>
+
+                        <div class="meta-bar" id="meta-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Audio-Sync Recommendation HUD -->
+                <div class="audio-sync-section" id="audio-sync-section" style="display:none;">
+                    <div class="audio-sync-title">🎵 Audio-Sync Compatibility Index</div>
+                    <div class="audio-sync-cards" id="audio-sync-cards"></div>
+                </div>
+
+                <!-- Hook Strength Scorer -->
+                <div class="hook-score-section" id="hook-score-section" style="display:none;">
+                    <div class="hook-score-card hyper-card">
+                        <div class="hook-score-card__header">
+                            <div>
+                                <div class="hook-score-card__title">🎣 Hook Strength Score</div>
+                                <div class="hook-score-card__subtitle">First 3 seconds analysis — the scroll-or-stay test</div>
+                            </div>
+                            <div class="hook-score-card__grade" id="hook-grade">—</div>
+                        </div>
+                        <div class="hook-score-card__body">
+                            <div class="hook-score-gauge" id="hook-gauge">
+                                <canvas id="hook-gauge-canvas" width="200" height="200"></canvas>
+                                <div class="hook-score-gauge__value" id="hook-score-value">—</div>
+                            </div>
+                            <div class="hook-score-breakdown" id="hook-breakdown"></div>
+                        </div>
+                        <div class="hook-score-suggestions" id="hook-suggestions"></div>
+                        <div class="hook-score-first-words" id="hook-first-words" style="display:none;"></div>
+                        <div class="hook-visual-critique" id="hook-visual-critique" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <!-- Emotion Arc Mapping -->
+                <div class="emotion-arc-section" id="emotion-arc-section" style="display:none;">
+                    <div class="chart-card chart-card--large hyper-card">
+                        <div class="chart-card__title">🎭 Emotion Arc — Emotional Journey Map</div>
+                        <div class="emotion-arc-summary" id="emotion-arc-summary"></div>
+                        <div class="emotion-arc-phases" id="emotion-arc-phases"></div>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas class="chart-canvas" id="emotion-arc-chart"></canvas>
+                        </div>
+                        <div class="emotion-arc-transitions" id="emotion-arc-transitions"></div>
+                    </div>
+                </div>
+
+                <!-- Retention Curve Predictor -->
+                <div class="retention-curve-section" id="retention-curve-section" style="display:none;">
+                    <div class="chart-card chart-card--large hyper-card">
+                        <div class="chart-card__title">📉 Predicted Viewer Retention Curve</div>
+                        <div class="retention-curve-metrics" id="retention-curve-metrics"></div>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas class="chart-canvas" id="retention-curve-chart"></canvas>
+                        </div>
+                        <div class="retention-curve-moments" id="retention-curve-moments"></div>
+                        <div class="retention-curve-sections" id="retention-curve-sections"></div>
+                    </div>
+                </div>
+
+                <!-- Multi-Spectral Analysis -->
+                <div class="charts-section">
+                    <div class="chart-card chart-card--large hyper-card">
+                        <div class="chart-card__title">🌈 Unified Multi-Spectral Overlay</div>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas class="chart-canvas" id="multispectral-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card hyper-card">
+                        <div class="chart-card__title">⚖️ Opportunity Gap (vs Reference)</div>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas class="chart-canvas" id="radar-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Profile Weights Radar -->
+                    <div class="chart-card hyper-card" id="weights-chart-card" style="display: none;">
+                        <div class="chart-card__title">🎯 Your Scoring Weights</div>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas class="chart-canvas" id="weights-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI-Base Editor -->
+                <div class="editor-section">
+                    <div class="editor-card hyper-card">
+                        <div class="editor-card__header">
+                            <div class="editor-card__title">✨ AI-Base Editor</div>
+                            <div class="editor-card__desc">Actionable insights from your scores.</div>
+                        </div>
+                        <div class="editor-actions">
+                            <button class="btn btn--primary" id="btn-trim-dropoffs">
+                                ✂️ Trim <b>Boring Parts</b> (Auto-Edit)
+                            </button>
+                            <button class="btn btn--secondary" id="btn-highlight-strengths">
+                                💚 Highlight Strengths
+                            </button>
+                            <button class="btn btn--secondary" id="btn-suggest-music">
+                                🎵 Match Viral Music
+                            </button>
+                            <button class="btn btn--secondary" id="btn-deep-dive">
+                                🔍 Deep-Dive Metrics
+                            </button>
+                            <button class="btn btn--accent" id="btn-fix-drops">
+                                🩺 AI Script Doctor
+                            </button>
+                        </div>
+                        <!-- Adaptation feedback -->
+                        <div class="adaptation-feedback" id="adaptation-feedback" style="display: none;"></div>
+                        <!-- Script Doctor Results -->
+                        <div class="script-doctor-results" id="script-doctor-results" style="display: none;"></div>
+                        <!-- Detailed insights injected here -->
+                        <div class="editor-insights" id="editor-insights"></div>
+                    </div>
+                </div>
+
+                <!-- Risk Zones -->
+                <div class="zones-section">
+                    <div class="zones-section__title">⚠️ Risk Zones <span class="zones-section__hint">(click for details)</span></div>
+                    <div class="zone-cards" id="zone-cards"></div>
+                </div>
+
+                <!-- Video Comparison Mode -->
+                <div class="comparison-section" id="comparison-section" style="display:none;">
+                    <div class="comparison-card hyper-card">
+                        <div class="comparison-card__header">
+                            <div class="comparison-card__title">🔄 Before vs After — Video Comparison</div>
+                            <button class="btn btn--small" id="btn-close-comparison">&times; Close</button>
+                        </div>
+                        <div class="comparison-videos">
+                            <div class="comparison-video-slot">
+                                <div class="comparison-video-label">📹 Original</div>
+                                <video id="comparison-original" controls preload="metadata"></video>
+                            </div>
+                            <div class="comparison-divider"></div>
+                            <div class="comparison-video-slot">
+                                <div class="comparison-video-label">✂️ Auto-Edited</div>
+                                <video id="comparison-edited" controls preload="metadata"></video>
+                            </div>
+                        </div>
+                        <div class="comparison-timeline" id="comparison-timeline"></div>
+                        <div class="comparison-sync-bar">
+                            <button class="btn btn--small btn--primary" id="btn-sync-play">▶ Sync Play</button>
+                            <button class="btn btn--small" id="btn-sync-pause">⏸ Pause</button>
+                            <span class="comparison-time" id="comparison-time">0:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ Report & Actions Bar ═══ -->
+                <div class="report-actions-section" id="report-actions-section" style="display:none;">
+                    <div class="report-actions-card hyper-card">
+                        <div class="report-actions-card__title">📋 Export & Insights</div>
+                        <div class="report-actions-buttons">
+                            <button class="btn btn--primary btn--large" id="btn-download-pdf">
+                                📄 Download PDF Report
+                            </button>
+                            <button class="btn btn--secondary" id="btn-share-report">
+                                🔗 Share report
+                            </button>
+                            <button class="btn btn--secondary" id="btn-compare-analyses">
+                                ⚖️ Compare
+                            </button>
+                            <button class="btn btn--secondary" id="btn-new-analysis">
+                                🔄 Analyze Another Video
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ AI Chat Assistant ═══ -->
+                <div class="chat-section" id="chat-section" style="display:none;">
+                    <div class="chat-card hyper-card">
+                        <div class="chat-card__header">
+                            <div class="chat-card__title">🤖 AI Analysis Assistant</div>
+                            <div class="chat-card__subtitle">Ask questions about your video analysis — powered by Gemini AI</div>
+                        </div>
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="chat-message chat-message--assistant">
+                                <div class="chat-message__avatar">🤖</div>
+                                <div class="chat-message__content">
+                                    <div class="chat-message__text">Hi! I've analyzed your video. Ask me anything about the results — weaknesses, improvements, specific timestamps, or optimization tips.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chat-input-bar">
+                            <input type="text" id="chat-input" class="hyper-input chat-input" placeholder="Ask about your video analysis..." maxlength="500" autocomplete="off">
+                            <button class="btn btn--primary btn--small" id="btn-send-chat" disabled>Send ➤</button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

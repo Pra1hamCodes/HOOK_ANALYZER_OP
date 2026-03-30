@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create your Hook Architect account — start analyzing your videos with AI-powered retention insights.">
+    <title>Sign Up — Hook Architect</title>
+    <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="/static/auth.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <div class="auth-page">
+
+        <!-- ═══ Left Panel — Brand ═══ -->
+        <div class="auth-brand">
+            <div class="auth-brand__bg">
+                <div class="auth-brand__orb auth-brand__orb--1"></div>
+                <div class="auth-brand__orb auth-brand__orb--2"></div>
+                <div class="auth-brand__orb auth-brand__orb--3"></div>
+            </div>
+            <div class="auth-brand__content">
+                <div class="auth-brand__logo">
+                    <span class="auth-brand__logo-icon">🎬</span>
+                    <span>Hook Architect</span>
+                </div>
+                <div class="auth-brand__tagline">Build hooks that hold attention.</div>
+                <p class="auth-brand__quote">"Every second of your video tells a story. We help you make sure it's one people can't look away from."</p>
+                <ul class="auth-brand__features">
+                    <li class="auth-brand__feature">
+                        <span class="auth-brand__feature-check">✓</span>
+                        12 analysis signals per video
+                    </li>
+                    <li class="auth-brand__feature">
+                        <span class="auth-brand__feature-check">✓</span>
+                        7 niche-tuned persona presets
+                    </li>
+                    <li class="auth-brand__feature">
+                        <span class="auth-brand__feature-check">✓</span>
+                        LLaVA visual AI diagnostics
+                    </li>
+                    <li class="auth-brand__feature">
+                        <span class="auth-brand__feature-check">✓</span>
+                        Adaptive feedback that learns your style
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ═══ Right Panel — Signup Form ═══ -->
+        <div class="auth-form-panel">
+            <div class="auth-form-card">
+                <div class="auth-form-card__header">
+                    <h1 class="auth-form-card__title">Create account</h1>
+                    <p class="auth-form-card__subtitle">Start analyzing your videos in under a minute</p>
+                </div>
+
+                <div class="auth-error" id="auth-error">
+                    <span>⚠️</span>
+                    <span id="auth-error-text"></span>
+                </div>
+
+                <form class="auth-form" id="signup-form" novalidate>
+                    <div class="input-group">
+                        <label class="input-label" for="signup-username">Creator Name</label>
+                        <input type="text" id="signup-username" class="input" placeholder="Your name or channel name" autocomplete="name" maxlength="50">
+                        <span class="input-error"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label" for="signup-email">Email</label>
+                        <input type="email" id="signup-email" class="input" placeholder="you@example.com" autocomplete="email">
+                        <span class="input-error"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label" for="signup-password">Password</label>
+                        <input type="password" id="signup-password" class="input" placeholder="Create a password (6+ characters)" autocomplete="new-password">
+                        <span class="input-error"></span>
+                        <div class="password-strength" data-strength="0">
+                            <div class="password-strength__bar"></div>
+                            <div class="password-strength__bar"></div>
+                            <div class="password-strength__bar"></div>
+                            <div class="password-strength__bar"></div>
+                        </div>
+                        <div class="password-strength__label"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label" for="signup-confirm">Confirm Password</label>
+                        <input type="password" id="signup-confirm" class="input" placeholder="Repeat your password" autocomplete="new-password">
+                        <span class="input-error"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label" for="signup-niche">Content Niche</label>
+                        <select id="signup-niche" class="input">
+                            <option value="vlog">🎬 Vlog / Lifestyle</option>
+                            <option value="comedy">😂 Comedy / Skit</option>
+                            <option value="education">📚 Education / Tutorial</option>
+                            <option value="fitness">💪 Fitness / Wellness</option>
+                            <option value="gaming">🎮 Gaming</option>
+                            <option value="music">🎵 Music / Dance</option>
+                            <option value="business">💼 Business / Finance</option>
+                        </select>
+                    </div>
+
+                    <div class="auth-submit">
+                        <button type="submit" class="btn btn--primary btn--full btn--large">Create Account</button>
+                    </div>
+
+                    <div class="auth-divider">or continue with</div>
+
+                    <div class="auth-toggle">
+                        Already have an account? <a href="/login">Sign in</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/static/auth.js"></script>
+    <script src="/static/cursor.js"></script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hook Architect Dashboard — upload videos, view analysis results, and track your content performance.">
+    <title>Dashboard — Hook Architect</title>
+    <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <div class="dashboard">
+
+        <!-- ═══ Hamburger Button (mobile) ═══ -->
+        <button class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- ═══ Sidebar ═══ -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__header">
+                <a href="/" class="sidebar__logo">
+                    <span class="sidebar__logo-icon">🎬</span>
+                    <span>Hook Architect</span>
+                </a>
+            </div>
+
+            <nav class="sidebar__nav">
+                <a href="/dashboard" class="sidebar__link active" data-page="home">
+                    <span class="sidebar__link-icon">🏠</span>
+                    Dashboard
+                </a>
+
+                <button class="sidebar__link sidebar__link--primary" id="btn-new-analysis">
+                    <span class="sidebar__link-icon">📤</span>
+                    New Analysis
+                </button>
+
+                <a href="/dashboard/history" class="sidebar__link" data-page="history">
+                    <span class="sidebar__link-icon">📜</span>
+                    History
+                </a>
+
+                <a href="/dashboard/profile" class="sidebar__link" data-page="profile">
+                    <span class="sidebar__link-icon">👤</span>
+                    My Profile
+                </a>
+
+                <button class="sidebar__link" id="btn-ledger">
+                    <span class="sidebar__link-icon">📊</span>
+                    Evolution Ledger
+                </button>
+            </nav>
+
+            <div class="sidebar__footer">
+                <div class="sidebar__user">
+                    <div class="sidebar__avatar" id="sidebar-avatar">?</div>
+                    <div class="sidebar__user-info">
+                        <div class="sidebar__user-name" id="sidebar-username">Guest</div>
+                        <div class="sidebar__user-niche" id="sidebar-niche">No profile</div>
+                    </div>
+                    <button class="sidebar__logout" id="btn-sidebar-logout" title="Log out">🚪</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══ Main Content ═══ -->
+        <main class="main" id="main-content">
+
+            <!-- ── Greeting ── -->
+            <div class="main__header">
+                <h1 class="main__greeting" id="main-greeting">Good morning 👋</h1>
+                <p class="main__sub-greeting" id="main-sub-greeting">Upload a video to get started with your analysis.</p>
+            </div>
+
+            <!-- ── Stats Row ── -->
+            <div class="stats-row" id="stats-row">
+                <div class="stat-card">
+                    <div class="stat-card__header">
+                        <div class="stat-card__icon stat-card__icon--purple">📹</div>
+                        <div class="stat-card__trend stat-card__trend--up" id="stat-trend-0"></div>
+                    </div>
+                    <div class="stat-card__value" id="stat-value-0">0</div>
+                    <div class="stat-card__label">Videos Analyzed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__header">
+                        <div class="stat-card__icon stat-card__icon--cyan">📊</div>
+                        <div class="stat-card__trend" id="stat-trend-1"></div>
+                    </div>
+                    <div class="stat-card__value" id="stat-value-1">—</div>
+                    <div class="stat-card__label">Avg Retention Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__header">
+                        <div class="stat-card__icon stat-card__icon--green">🎣</div>
+                        <div class="stat-card__trend" id="stat-trend-2"></div>
+                    </div>
+                    <div class="stat-card__value" id="stat-value-2">—</div>
+                    <div class="stat-card__label">Best Hook Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card__header">
+                        <div class="stat-card__icon stat-card__icon--yellow">🔴</div>
+                        <div class="stat-card__trend" id="stat-trend-3"></div>
+                    </div>
+                    <div class="stat-card__value" id="stat-value-3">0</div>
+                    <div class="stat-card__label">Red Zones Fixed</div>
+                </div>
+            </div>
+
+            <!-- ── Upload Zone ── -->
+            <div class="upload-card" id="upload-card">
+                <div class="upload-card__title">🚀 Quick Analysis</div>
+                <div class="upload-dropzone" id="upload-dropzone">
+                    <div class="upload-dropzone__icon">📹</div>
+                    <div class="upload-dropzone__title">Drop your video here or click to browse</div>
+                    <div class="upload-dropzone__hint">Supports MP4, MOV, AVI, WebM, MKV — max 120 seconds</div>
+                    <input type="file" id="file-input" accept="video/*">
+                </div>
+                <div class="upload-options">
+                    <span class="upload-options__label">Platform:</span>
+                    <select id="platform-select" class="input" style="width: auto; min-width: 160px; padding: 8px 32px 8px 14px; font-size: 0.85rem;">
+                        <option value="generic">Generic</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="reels">Instagram Reels</option>
+                        <option value="youtube_shorts">YouTube Shorts</option>
+                    </select>
+                    <button id="btn-start-upload" class="btn btn--primary" style="margin-left: auto;" disabled>
+                        Start Analysis →
+                    </button>
+                </div>
+            </div>
+
+            <!-- ── Progress Tracker ── -->
+            <div class="progress-tracker" id="progress-tracker">
+                <div class="progress-tracker__header">
+                    <div class="progress-tracker__title">🔬 Analyzing Video</div>
+                    <div class="progress-tracker__pct" id="progress-pct">0%</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar__fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-tracker__message" id="progress-msg">Uploading video...</div>
+            </div>
+
+            <!-- ── Recent Analyses ── -->
+            <div class="recent-section" id="recent-section">
+                <div class="recent-section__header">
+                    <h2 class="recent-section__title">Recent Analyses</h2>
+                    <a href="/dashboard/history" class="recent-section__link">View All →</a>
+                </div>
+                <div class="recent-grid" id="recent-grid">
+                    <div class="empty-state">
+                        <div class="empty-state__icon">📹</div>
+                        <div class="empty-state__title">No analyses yet</div>
+                        <div class="empty-state__desc">Upload your first video to see results here.</div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="/static/dashboard.js"></script>
+    <script src="/static/cursor.js"></script>
+</body>
+</html>

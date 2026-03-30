@@ -1,0 +1,5 @@
+flask>=3.0.0
+groq>=1.0.0
+opencv-python-headless>=4.9.0
+numpy
+python-dotenv>=1.0.1

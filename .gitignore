@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ML Models (large binary files)
+*.pkl
+*.h5
+*.pt
+*.pth
+*.onnx
+
+# Database
+*.db
+*.sqlite3
+
+# Uploaded/processed files
+uploads/
+processed/
+RGIT/backend/uploads/
+RGIT/backend/processed/
+
+# Dataset files (large)
+*.csv
+*.zip
+
+# Large binaries / FFmpeg
+*.exe
+ffmpeg
+ffplay
+ffprobe
+
+# Media files
+*.mp4
+*.mov
+*.avi
+*.wav
+*.mp3
+
+# PDF (generated)
+*.pdf
+
+# ML model metadata (auto-generated)
+*_meta.json
+*_cache.pkl
+
+# Logs
+*.log
+
+# Node modules
+node_modules/
+
+# Distribution
+dist/
+build/
+*.egg-info/

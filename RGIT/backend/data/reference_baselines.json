@@ -1,0 +1,24 @@
+{
+  "industry_baselines": {
+    "target_attention_score": 85.0,
+    "target_sound_score": 80.0,
+    "target_transcription_score": 75.0,
+    "target_visual_motion_avg": 40.0,
+    "target_audio_energy_avg": 65.0,
+    "target_emotional_alignment": 80.0
+  },
+  "genre_baselines": {
+    "vlog": {
+      "motion_target": 50.0,
+      "pacing_target": "fast"
+    },
+    "educational": {
+      "motion_target": 20.0,
+      "pacing_target": "medium"
+    },
+    "storytime": {
+      "motion_target": 15.0,
+      "pacing_target": "slow"
+    }
+  }
+}

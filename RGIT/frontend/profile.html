@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hook Architect — Your creator profile, video history, weights, evolution ledger, and references.">
+    <title>My Profile — Hook Architect</title>
+    <link rel="stylesheet" href="/static/common.css">
+    <link rel="stylesheet" href="/static/dashboard.css">
+    <link rel="stylesheet" href="/static/profile.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
+</head>
+<body>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <div class="dashboard">
+
+        <!-- ═══ Hamburger Button (mobile) ═══ -->
+        <button class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- ═══ Sidebar ═══ -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar__header">
+                <a href="/" class="sidebar__logo">
+                    <span class="sidebar__logo-icon">🎬</span>
+                    <span>Hook Architect</span>
+                </a>
+            </div>
+
+            <nav class="sidebar__nav">
+                <a href="/dashboard" class="sidebar__link" data-page="home">
+                    <span class="sidebar__link-icon">🏠</span>
+                    Dashboard
+                </a>
+
+                <button class="sidebar__link sidebar__link--primary" id="btn-new-analysis" onclick="window.location.href='/dashboard'">
+                    <span class="sidebar__link-icon">📤</span>
+                    New Analysis
+                </button>
+
+                <a href="/dashboard/history" class="sidebar__link" data-page="history">
+                    <span class="sidebar__link-icon">📜</span>
+                    History
+                </a>
+
+                <a href="/dashboard/profile" class="sidebar__link active" data-page="profile">
+                    <span class="sidebar__link-icon">👤</span>
+                    My Profile
+                </a>
+
+                <button class="sidebar__link" id="btn-ledger">
+                    <span class="sidebar__link-icon">📊</span>
+                    Evolution Ledger
+                </button>
+            </nav>
+
+            <div class="sidebar__footer">
+                <div class="sidebar__user">
+                    <div class="sidebar__avatar" id="sidebar-avatar">?</div>
+                    <div class="sidebar__user-info">
+                        <div class="sidebar__user-name" id="sidebar-username">Guest</div>
+                        <div class="sidebar__user-niche" id="sidebar-niche">No profile</div>
+                    </div>
+                    <button class="sidebar__logout" id="btn-sidebar-logout" title="Log out">🚪</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══ Main Content ═══ -->
+        <main class="main" id="main-content">
+
+            <!-- ── Loading Overlay ── -->
+            <div class="profile-loading" id="profile-loading">
+                <div class="spinner" style="width:40px;height:40px;border-width:4px;"></div>
+                <p>Loading your profile…</p>
+            </div>
+
+            <!-- ── Profile Hero ── -->
+            <section class="profile-hero" id="profile-hero">
+                <div class="profile-hero__avatar" id="hero-avatar">?</div>
+                <div class="profile-hero__info">
+                    <h1 class="profile-hero__name" id="hero-name">—</h1>
+                    <div class="profile-hero__badges">
+                        <span class="badge badge--accent" id="hero-niche">—</span>
+                        <span class="badge badge--success" id="hero-video-count">0 videos</span>
+                        <span class="badge badge--warning" id="hero-joined">—</span>
+                    </div>
+                </div>
+                <div class="profile-hero__actions">
+                    <button class="btn btn--secondary btn--small" id="btn-edit-niche" title="Change niche">✏️ Edit Niche</button>
+                    <button class="btn btn--secondary btn--small btn--danger-hover" id="btn-delete-profile" title="Delete profile">🗑 Delete</button>
+                </div>
+            </section>
+
+            <!-- ── Tabs ── -->
+            <div class="tabs" id="profile-tabs">
+                <button class="tab active" data-tab="overview">Overview</button>
+                <button class="tab" data-tab="weights">Weight Tuner</button>
+                <button class="tab" data-tab="history">Video History</button>
+                <button class="tab" data-tab="ledger">Evolution Ledger</button>
+                <button class="tab" data-tab="references">Reference Videos</button>
+                <button class="tab" data-tab="chat">AI Coach Chat</button>
+            </div>
+
+            <!-- ═══ TAB: Overview ═══ -->
+            <div class="tab-content active" id="tab-overview">
+                <div class="overview-grid">
+                    <div class="card overview-stat">
+                        <div class="overview-stat__icon">📹</div>
+                        <div class="overview-stat__value" id="ov-total-videos">0</div>
+                        <div class="overview-stat__label">Videos Analyzed</div>
+                    </div>
+                    <div class="card overview-stat">
+                        <div class="overview-stat__icon">📊</div>
+                        <div class="overview-stat__value" id="ov-avg-score">—</div>
+                        <div class="overview-stat__label">Avg Score</div>
+                    </div>
+                    <div class="card overview-stat">
+                        <div class="overview-stat__icon">🟢</div>
+                        <div class="overview-stat__value" id="ov-green-pct">—</div>
+                        <div class="overview-stat__label">Green Zone %</div>
+                    </div>
+                    <div class="card overview-stat">
+                        <div class="overview-stat__icon">📐</div>
+                        <div class="overview-stat__value" id="ov-ref-count">0</div>
+                        <div class="overview-stat__label">Reference Videos</div>
+                    </div>
+                </div>
+
+                <!-- Current Weights Preview -->
+                <div class="card" style="margin-top: 24px;">
+                    <h3 style="margin-bottom: 16px;">⚖️ Current Scoring Weights</h3>
+                    <div class="weights-preview" id="weights-preview">
+                        <!-- filled by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ TAB: Weight Tuner ═══ -->
+            <div class="tab-content" id="tab-weights">
+                <div class="card">
+                    <h3 style="margin-bottom: 6px;">⚖️ Scoring Weight Tuner</h3>
+                    <p class="text-muted" style="margin-bottom: 24px; font-size: 0.88rem;">
+                        Adjust how much each signal contributes to your overall attention score.
+                    </p>
+                    <div class="weight-sliders" id="weight-sliders">
+                        <!-- filled by JS -->
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button class="btn btn--primary btn--small" id="btn-save-weights">💾 Save Weights</button>
+                        <button class="btn btn--secondary btn--small" id="btn-reset-weights">↩ Reset to Preset</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ TAB: Video History ═══ -->
+            <div class="tab-content" id="tab-history">
+                <div class="card">
+                    <h3 style="margin-bottom: 20px;">📜 Video Analysis History</h3>
+                    <div id="history-list" class="history-list">
+                        <div class="empty-state">
+                            <div class="empty-state__icon">📹</div>
+                            <div class="empty-state__title">No video history yet</div>
+                            <div class="empty-state__desc">Analyze your first video to build your history.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ TAB: Evolution Ledger ═══ -->
+            <div class="tab-content" id="tab-ledger">
+                <div class="card">
+                    <h3 style="margin-bottom: 20px;">📊 Evolution Ledger</h3>
+                    <p class="text-muted" style="margin-bottom: 20px; font-size: 0.88rem;">
+                        Track how your scoring weights evolve over time as the adaptive engine learns your preferences.
+                    </p>
+                    <div id="ledger-list" class="ledger-list">
+                        <div class="empty-state">
+                            <div class="empty-state__icon">📊</div>
+                            <div class="empty-state__title">No ledger entries yet</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ TAB: Reference Videos ═══ -->
+            <div class="tab-content" id="tab-references">
+                <div class="card">
+                    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+                        <div>
+                            <h3>📐 Reference Videos</h3>
+                            <p class="text-muted" style="font-size: 0.88rem; margin-top: 4px;">
+                                Upload "gold standard" videos to build your personal baseline.
+                            </p>
+                        </div>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn--primary btn--small" id="btn-upload-ref">📤 Upload Reference</button>
+                            <button class="btn btn--secondary btn--small btn--danger-hover" id="btn-clear-refs">🗑 Clear All</button>
+                        </div>
+                    </div>
+
+                    <!-- Hidden file input -->
+                    <input type="file" id="ref-file-input" accept="video/*" style="display:none;">
+
+                    <!-- Reference upload progress -->
+                    <div class="ref-progress" id="ref-progress">
+                        <div class="progress-bar"><div class="progress-bar__fill" id="ref-progress-fill"></div></div>
+                        <p class="text-muted" style="margin-top:8px; font-size:0.85rem;" id="ref-progress-msg">Processing...</p>
+                    </div>
+
+                    <!-- Baseline summary -->
+                    <div class="ref-baseline" id="ref-baseline">
+                        <!-- filled by JS -->
+                    </div>
+
+                    <!-- Individual refs -->
+                    <div id="ref-list" class="ref-list">
+                        <div class="empty-state">
+                            <div class="empty-state__icon">📐</div>
+                            <div class="empty-state__title">No reference videos yet</div>
+                            <div class="empty-state__desc">Upload your best performing videos to build a baseline for comparison.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══ TAB: AI Coach Chat ═══ -->
+            <div class="tab-content" id="tab-chat">
+                <div class="card chat-card">
+                    <h3 style="margin-bottom: 6px;">🤖 AI Coach Chat</h3>
+                    <p class="text-muted" style="margin-bottom: 16px; font-size: 0.88rem;">
+                        Ask the AI any question about your latest video analysis.
+                    </p>
+
+                    <div class="chat-messages" id="chat-messages">
+                        <div class="chat-msg chat-msg--bot">
+                            <div class="chat-msg__avatar">🤖</div>
+                            <div class="chat-msg__body">
+                                Hi! I'm your Hook Architect AI Coach. Ask me anything about your latest video analysis — scores, zones, improvements, or strategy.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-row">
+                        <input type="text" class="input" id="chat-input" placeholder="Ask about your video analysis..." autocomplete="off">
+                        <button class="btn btn--primary btn--small" id="btn-chat-send">Send →</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="/static/profile.js"></script>
+    <script src="/static/cursor.js"></script>
+</body>
+</html>
