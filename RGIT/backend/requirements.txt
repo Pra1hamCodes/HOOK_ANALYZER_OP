@@ -19,3 +19,4 @@ xhtml2pdf>=0.2.16
 scikit-learn>=1.4.0
 xgboost>=2.0.0
 ollama>=0.3.0
+gunicorn
