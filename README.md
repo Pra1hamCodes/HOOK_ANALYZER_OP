@@ -375,7 +375,6 @@ No license file is currently included in this repository. All rights are retaine
 
 **Pra1hamCodes**
 GitHub: [@Pra1hamCodes](https://github.com/Pra1hamCodes)
-Live Demo: [hookanalyzer-six.vercel.app](https://hookanalyzer-six.vercel.app)
 
 ---
 
